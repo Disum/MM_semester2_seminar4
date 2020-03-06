@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 
 	time_beg = clock();
 	it = solve(&f, a, b, eps, &x);
-	printf("Time: %.2lf\n", (double)(clock() - time_beg)/CLOCKS_PER_SEC);
+	printf("Time: %.2lf seconds\n", (double)(clock() - time_beg)/CLOCKS_PER_SEC);
 	if( it>=0 )
 		printf("x = %e\nit = %d\n", x, it);
 	else

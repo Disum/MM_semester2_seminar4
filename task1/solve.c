@@ -2,7 +2,6 @@
 #include "f.h"
 #define MAX_IT 10e6
 #define NOT_FOUND (-1)
-#define EPS_VAL 10e-8
 
 int solve(double (*f)(double), double a, double b, double eps, double *x)
 {
@@ -23,9 +22,6 @@ int solve(double (*f)(double), double a, double b, double eps, double *x)
 			break;
 
 		val_c = f(c);
-
-		if( (a<=c && a>=c) || (b<=c && b>=c) )
-			break;
 
 		if( val_a*val_c<=0 )
 		{
