@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 	it = solve(&f, &d, x0, eps, &x);
 	printf("Time: %.2lf seconds\n", (double)(clock() - time_beg)/CLOCKS_PER_SEC);
 	if( it>=0 )
-		printf("x = %e\nit = %d\n", x, it);
+		printf("x = %.e\nit = %d\n", x, it);
 	else
 		printf("Can not find root!\n");
 

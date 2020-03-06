@@ -1,15 +1,15 @@
 #include "heapsort.h"
-void swap(struct point *a, struct point *b);
+void swap(double *a, double *b);
 
-/* Предполагается, что n>0, и по указателю a расположен массив из n элементов.
+/* Предполагается, что n>0, и по указателям x и y расположены массив из n элементов.
  * Турнирная сортировка или алгоритм heapsort.
  * */
-void heapsort(struct point *a, int n, int (*p)(struct point, struct point))
+void heapsort(double *x, double *y, int n, int (*p)(double, double))
 {
 	int k, parent, position, i, child_1, child_2, child, width, width_dynamic, num_position;
-	struct point buffer;
+	double buffer_y, buffer_x;
 
-	/* Рассматриваем бинарное дерево с корнем a[0], где для любого a[k] потомками являются a[2*k + 1] и a[2*k + 2].
+	/* Рассматриваем бинарное дерево с корнем y[0], где для любого y[k] потомками являются y[2*k + 1] и y[2*k + 2].
 	 * Первый этап алгорима: превратить дерево в дерево, в котором всякая цепочка от корня до любого конечного элемента упорядочена по убыванию.
 	 * */
 	for( k = 1; k<n; k++ )
@@ -19,25 +19,29 @@ void heapsort(struct point *a, int n, int (*p)(struct point, struct point))
 		{
 			parent = (int)( (position - 1)/2 );// Индекс родителя a[position]
 
-			if( p(a[parent],a[k])>-1 )
+			if( p(y[parent],y[k])>-1 )
 				break;
 		}
 
-		buffer = a[k];
+		buffer_y = y[k];
+		buffer_x = x[k];
 		for( i = k; i!=position; i = parent )
 		{
 			parent = (int)( (i - 1)/2 );
-			a[i] = a[parent];
+			y[i] = y[parent];
+			x[i] = x[parent];
 		}
-		a[position] = buffer;
+		y[position] = buffer_y;
+		x[position] = buffer_x;
 	}
-	// Первый этап закончен. В a[0] находится максимальный элемент.
+	// Первый этап закончен. В y[0] находится максимальный элемент.
 
-	/* Второй этап: для всех k = n - 1, .., 1: поменять местами a[0] и a[k], и в массиве первых k элементов массива a восстанавливаем структуру:
+	/* Второй этап: для всех k = n - 1, .., 1: поменять местами y[0] и y[k], и в массиве первых k элементов массива a восстанавливаем структуру:
 	 * всякая цепочка от корня до любого конечного элемента упорядочена по убыванию. */
 	for( k = n - 1; k>0; k-- )
 	{
-		swap(a, a + k);
+		swap(y, y + k);
+		swap(x, x + k);
 
 		child_1 = 1;
 		child_2 = 2;
@@ -52,7 +56,7 @@ void heapsort(struct point *a, int n, int (*p)(struct point, struct point))
 
 			if( (child_2==k) )
 			{
-				if( p(a[child_1], a[0])>0 )
+				if( p(y[child_1], y[0])>0 )
 				{
 					position = child_1;
 					width *= 2;
@@ -61,9 +65,9 @@ void heapsort(struct point *a, int n, int (*p)(struct point, struct point))
 				break;
 			}
 
-			if( p(a[child_1], a[0])>0 )
+			if( p(y[child_1], y[0])>0 )
 			{
-				if( p(a[child_2], a[child_1])>0 )
+				if( p(y[child_2], y[child_1])>0 )
 				{
 					position = child_2;
 				} else
@@ -75,9 +79,9 @@ void heapsort(struct point *a, int n, int (*p)(struct point, struct point))
 				continue;
 			}
 
-			if( p(a[child_2], a[0])>0 )
+			if( p(y[child_2], y[0])>0 )
 			{
-				if( p(a[child_1], a[child_2])>0 )
+				if( p(y[child_1], y[child_2])>0 )
 				{
 					position = child_1;
 				} else
@@ -89,10 +93,11 @@ void heapsort(struct point *a, int n, int (*p)(struct point, struct point))
 				continue;
 			}
 
-			break;// (a[position]>=a[child1]) && (a[position]>=a[child2])
+			break;// (y[position]>=y[child1]) && (y[position]>=y[child2])
 		}
 
-		buffer = a[0];
+		buffer_y = y[0];
+		buffer_x = x[0];
 		width_dynamic = width;// Ширина уровня поддерева, в котором находится a[position]
 		num_position = position - width + 1;// Номер позиции в уровне поддерева ширины width_dynamic;
 		for( i = 0; i<position; i = child, width_dynamic = (int)(width_dynamic/2) )
@@ -106,15 +111,17 @@ void heapsort(struct point *a, int n, int (*p)(struct point, struct point))
 				num_position -= (int)(width_dynamic/2);
 			}
 
-			a[i] = a[child];
+			y[i] = y[child];
+			x[i] = x[child];
 		}
-		a[position] = buffer;
+		y[position] = buffer_y;
+		x[position] = buffer_x;
 	}
 }
 
-void swap(struct point *a, struct point *b)
+void swap(double *a, double *b)
 {
-	struct point buffer;
+	double buffer;
 
 	buffer = *a;
 	*a = *b;

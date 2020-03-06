@@ -15,9 +15,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Error! Usage: %s a b eps\n", argv[0]);
 		return ERROR_READ;
 	}
-	if( sscanf(argv[1], "%lf", &a)!=1 || sscanf(argv[2], "%lf", &b)!=1 || sscanf(argv[3], "%lf", &eps)!=1 || eps<=0 || a>b || f(a)*f(b)>0 )
+	if( sscanf(argv[1], "%lf", &a)!=1 || sscanf(argv[2], "%lf", &b)!=1 || sscanf(argv[3], "%lf", &eps)!=1 || eps<=0 || a>b )
 	{
-		fprintf(stderr, "Error! Can not read a, b, eps: eps>0, a<=b, f(a)*f(b)<=0\n");
+		fprintf(stderr, "Error! Can not read a, b, eps: eps>0, a<=b\n");
 		return ERROR_READ;
 	}
 
