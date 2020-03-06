@@ -18,18 +18,19 @@ int p(double a, double b)
 	return 0;
 }
 
-int solve(double (*f)(double), double a, double b, double eps, double *res)
+int solve(double (*f)(double), int m, double *d, double a, double b, double eps, double *res)
 {
 	int it, i;
-	double x_new, y_new, x[3], y[3], x_tmp[3];
+	double *x = d, *y = d + m + 1, *x_tmp = d + 2*(m + 1), dist, x_new, y_new;
 
-	x[0] = a;
-	x[1] = b;
-	x[2] = (a + b)/2;
-	for( i = 0; i<3; i++ )
+	dist = (b - a)/m;
+	for( i = 0; i<(m + 1); i++ )
+	{
+		x[i] = a + i*dist;
 		y[i] = f(x[i]);
+	}
 
-	for( i = 0; i<3; i++ )
+	for( i = 0; i<(m + 1); i++ )
 	{
 		if( fabs(y[i])<eps )
 		{
@@ -40,10 +41,10 @@ int solve(double (*f)(double), double a, double b, double eps, double *res)
 
 	for( it = 1; it<MAX_IT; it++ )
 	{
-		for( i = 0; i<3; i++ )
+		for( i = 0; i<(m + 1); i++ )
 			x_tmp[i] = x[i];
 
-		x_new = interp(3, 0, y, x_tmp);
+		x_new = interp(m + 1, 0, y, x_tmp);
 		y_new = f(x_new);
 
 		if( fabs(y_new)<eps )
@@ -52,16 +53,16 @@ int solve(double (*f)(double), double a, double b, double eps, double *res)
 			return it;
 		}
 
-		for( i = 0; i<3; i++ )
+		for( i = 0; i<(m + 1); i++ )
 		{
 			if( (y_new<=y[i]) && (y_new>=y[i]) )
 				return NOT_FOUND;
 		}
 
-		heapsort(x, y, 3, &p);
+		heapsort(x, y, (m + 1), &p);
 
-		x[2] = x_new;
-		y[2] = y_new;
+		x[m] = x_new;
+		y[m] = y_new;
 	}
 
 	return NOT_FOUND;

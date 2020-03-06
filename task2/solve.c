@@ -20,8 +20,7 @@ int solve(double (*f)(double), double (*d)(double), double x0, double eps, doubl
 		foll_x = prev_x - val_prev/val_d;
 
 		val_foll = f(foll_x);
-		if( fabs(foll_x - prev_x)<eps )
-		//if( fabs(val_foll)<eps )
+		if( fabs(val_foll)<eps )
 		{
 			*x = foll_x;
 			return it;

@@ -19,10 +19,7 @@ int solve(double (*f)(double), double a, double b, double eps, double *x)
 		c = a - val_a*(b - a)/(val_b - val_a);
 
 		if( (a<=c && a>=c) || (b<=c && b>=c) )
-		{
-			*x = c;
-			return it;
-		}
+			break;
 
 		val_c = f(c);
 

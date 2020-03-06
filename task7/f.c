@@ -2,5 +2,5 @@
 
 double f(double x)
 {
-	return x;
+	return 2*x - 5;
 }

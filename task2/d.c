@@ -2,5 +2,5 @@
 
 double d(double x)
 {
-	return 1/x;
+	return 1;
 }

@@ -1,6 +1,6 @@
 #include "solve.h"
 #include "f.h"
-#define MAX_IT 10e6
+#define MAX_IT 1e6
 #define NOT_FOUND (-1)
 
 int solve(double (*f)(double), double a, double b, double eps, double *x)
