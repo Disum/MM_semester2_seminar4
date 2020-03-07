@@ -4,7 +4,7 @@
 #include "heapsort.h"
 #include "f.h"
 int p(double a, double b);
-#define MAX_IT 1e6
+#define MAX_IT 1e16
 #define NOT_FOUND (-1)
 
 int p(double a, double b)

@@ -3,5 +3,6 @@
 
 double d(double x)
 {
-	return 1;
+	(void)x;
+	return 3*x*x - 4*x + 1;
 }

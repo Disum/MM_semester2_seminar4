@@ -1,6 +1,7 @@
+#include <math.h>
 #include "solve.h"
 #include "f.h"
-#define MAX_IT 1e6
+#define MAX_IT 1e200
 #define NOT_FOUND (-1)
 
 int solve(double (*f)(double), double a, double b, double eps, double *x)
@@ -11,8 +12,9 @@ int solve(double (*f)(double), double a, double b, double eps, double *x)
 	for( it = 0; it<MAX_IT; it++ )
 	{
 		c = (a + b)/2;
+		val_c = f(c);
 
-		if( (b - a)<eps )
+		if( fabs(val_c)<eps )
 		{
 			*x = c;
 			return it;
@@ -20,8 +22,6 @@ int solve(double (*f)(double), double a, double b, double eps, double *x)
 
 		if( (a<=c && a>=c) || (b<=c && b>=c) )
 			break;
-
-		val_c = f(c);
 
 		if( val_a*val_c<=0 )
 		{

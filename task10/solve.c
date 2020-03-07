@@ -55,12 +55,18 @@ int solve(double (*f)(double), double a, double b, double eps, double *res)
 		g_x0_x1_x2 = (g_x1_x2 - g_x0_x1)/(x[2] - x[0]);
 
 		if( fabs(g_x0_x1_x2)<m_eps )
-			break;
+		{
+			*res = x[2];
+			return it;
+		}
 		x_new = -( g_x0_x1 - (x[0] + x[1])*g_x0_x1_x2 )/( 2*g_x0_x1_x2 );
 		for( i = 0; i<3; i++ )
 		{
 			if( x_new<=x[i] && x_new>=x[i] )
-				return NOT_FOUND;
+			{
+				*res = x[2];
+				return it;
+			}
 		}
 		y_new = f(x_new);
 
