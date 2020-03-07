@@ -1,3 +1,4 @@
+#include <math.h>
 #include "d.h"
 
 double d(double x)

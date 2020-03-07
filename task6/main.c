@@ -36,5 +36,6 @@ int main(int argc, char **argv)
 	else
 		printf("Can not find root!\n");
 
+	free(d);
 	return 0;
 }

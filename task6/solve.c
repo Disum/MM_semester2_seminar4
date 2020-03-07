@@ -20,7 +20,7 @@ int p(double a, double b)
 
 int solve(double (*f)(double), int m, double *d, double a, double b, double eps, double *res)
 {
-	int it, i;
+	int it, i, j;
 	double *x = d, *y = d + m + 1, *x_tmp = d + 2*(m + 1), dist, x_new, y_new;
 
 	dist = (b - a)/m;
@@ -38,6 +38,13 @@ int solve(double (*f)(double), int m, double *d, double a, double b, double eps,
 			return 0;
 		}
 	}
+
+	for( i = 0; i<(m + 1); i++ )
+		for( j = i + 1; j<(m + 1); j++ )
+			if( y[i]<=y[j] && y[i]>=y[j] )
+				return NOT_FOUND;
+
+	heapsort(x, y, (m + 1), &p);
 
 	for( it = 1; it<MAX_IT; it++ )
 	{
@@ -59,10 +66,33 @@ int solve(double (*f)(double), int m, double *d, double a, double b, double eps,
 				return NOT_FOUND;
 		}
 
-		heapsort(x, y, (m + 1), &p);
+		for( i = m; i>=0; i-- )
+		{
+			if( fabs(y_new)>=fabs(y[i]) )
+			{
+				for( j = m; j>(i + 1); j-- )
+				{
+					x[j] = x[j - 1];
+					y[j] = y[j - 1];
+				}
 
-		x[m] = x_new;
-		y[m] = y_new;
+				x[i + 1] = x_new;
+				y[i + 1] = y_new;
+
+				break;
+			}
+		}
+		if( i==-1 )
+		{
+			for( j = m; j>0; j-- )
+			{
+				x[j] = x[j - 1];
+				y[j] = y[j - 1];
+			}
+
+			x[0] = x_new;
+			y[0] = y_new;
+		}
 	}
 
 	return NOT_FOUND;
